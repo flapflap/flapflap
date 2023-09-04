@@ -9,11 +9,23 @@ def git_fetch():
   """
   return subprocess.check_output(["git", "fetch"])
 
+def git_add():
+  """
+  Exécute la commande `git add` avec le message spécifié.
+  """
+  try:
+    return subprocess.check_output(["git", "add", "*"])                   
+  except subprocess.CalledProcessError as grepexc:                                                                                                   
+    print("error code", grepexc.returncode, grepexc.output)
+
 def git_commit(message):
   """
   Exécute la commande `git commit` avec le message spécifié.
   """
-  return subprocess.check_output(["git", "commit", "-m", message])
+  try:
+    return subprocess.check_output(["git", "commit", "-m", message])                   
+  except subprocess.CalledProcessError as grepexc:                                                                                                   
+    print("error code", grepexc.returncode, grepexc.output)
 
 def git_push():
   """
@@ -31,12 +43,16 @@ def main():
 
   # Lance l'application.
   print("Lancement de l'application...")
-  app = subprocess.Popen(["/App/TextEdit"], shell=True)
+  app = subprocess.Popen(["/Applications/Pages.app/Contents/MacOS/Pages"], shell=True)
 
   # Attend que l'application se termine.
   print("Attente de la fin de l'application...")
   app.wait()
 
+  # Exécute la commande `git add`.
+  print("Exécution de la commande `git add`...")
+  git_add()
+  
   # Exécute la commande `git commit` avec le message `"Commit automatique"`.
   print("Exécution de la commande `git commit`...")
   git_commit("Commit automatique")
